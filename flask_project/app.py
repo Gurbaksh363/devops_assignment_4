@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 import json, os
 from dotenv import load_dotenv
 from pymongo import MongoClient
@@ -11,6 +11,7 @@ db = client.test
 collection = db.todo
 
 app = Flask(__name__)
+
 @app.route('/api')
 def api():
   f = open('./flask_project/data.txt', 'r')
@@ -20,6 +21,10 @@ def api():
   data = json.loads(data)
   data = {'data': data}
   return data
+
+@app.route('/')
+def todo():
+  return render_template('todo.html')
 
 @app.route('/submittodoitem', methods=['POST'])
 def submit():
